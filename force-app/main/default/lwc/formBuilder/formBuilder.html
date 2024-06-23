@@ -9,14 +9,20 @@
 						<template lwc:if={layout.fields}>
 							<lightning-layout data-layout-index={layoutIndex} multiple-rows>
 								<template for:each={layout.fields} for:item="field" for:index="fieldIndex">
-									<lightning-layout-item key={field.Id} data-layout-index={layoutIndex} data-field-index={fieldIndex}
-										size="12" padding="around-small" medium-device-size="6" large-device-size="3">
-										<lightning-input type="text" variant="standard" label="label"></lightning-input>
+									<lightning-layout-item key={field.Id} data-layout-index={layoutIndex}
+										data-field-index={fieldIndex} size="12" medium-device-size="6"
+										large-device-size="3">
+										<div class="inputContainer slds-p-horizontal_small">
+											<lightning-input data-layout-index={layoutIndex}
+												data-field-index={fieldIndex} type="text" variant="standard"
+												label="label">
+											</lightning-input>
+										</div>
 									</lightning-layout-item>
 								</template>
 							</lightning-layout>
 						</template>
-						<div data-layout-index={layoutIndex} class="slds-align_absolute-center">
+						<div data-layout-index={layoutIndex} class="slds-m-around_small slds-align_absolute-center">
 							<lightning-button data-layout-index={layoutIndex} onclick={addField} variant="base"
 								label="Add Field">
 							</lightning-button>

@@ -4,7 +4,8 @@ export default class FormBuilder extends LightningElement {
     @track layouts = [{}];
 
     layoutClicked(event) {
-        console.log('Layout Index : ',event.target.getAttribute('data-layout-index'));
+        console.log('Layout Index : ', event.target.getAttribute('data-layout-index'));
+        console.log('Field Index : ', event.target.getAttribute('data-field-index'));
     }
 
     addField(event) {
