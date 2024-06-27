@@ -2,21 +2,27 @@ import { LightningElement, track } from 'lwc';
 
 export default class FormBuilder extends LightningElement {
     @track layouts = [{}];
-    configurationItems = [
-        { label: 'Type', isCombobox: true, options: [{ label: 'Text', value: 'text' }] },
-        { label: 'Label', type: 'text' },
-        { label: 'Variant', isCombobox: true, options: [{ label: 'Standard', value: 'standard' }, { label: 'Label Hidden', value: 'label-hidden' }] }
-    ];
+    get configurationItems() {
+        console.log(`Inside getter this.layoutIndex - ${this.layoutIndex}, this.fieldIndex - ${this.fieldIndex}`);
+        if (this.layoutIndex && this.fieldIndex) {
+            console.log('Returning list');
+            return [
+                { label: 'Type', isCombobox: true, options: [{ label: 'Text', value: 'text' }], value: this.layouts[this.layoutIndex].fields[this.fieldIndex].type },
+                { label: 'Label', type: 'text', value: this.layouts[this.layoutIndex].fields[this.fieldIndex].label },
+                { label: 'Variant', isCombobox: true, options: [{ label: 'Standard', value: 'standard' }, { label: 'Label Hidden', value: 'label-hidden' }] }
+            ];
+        } else return false;
+    }
 
     layoutIndexAttribute = 'data-layout-index';
     fieldIndexAttribute = 'data-field-index';
+    layoutIndex;
+    fieldIndex;
 
     layoutClicked(event) {
-        const layoutIndex = event.target.getAttribute(this.layoutIndexAttribute);
-        const fieldIndex = event.target.getAttribute(this.fieldIndexAttribute);
-        if (layoutIndex >= 0 && fieldIndex >= 0) {
-
-        }
+        this.layoutIndex = event.target.getAttribute(this.layoutIndexAttribute);
+        this.fieldIndex = event.target.getAttribute(this.fieldIndexAttribute);
+        console.log(`this.layoutIndex - ${this.layoutIndex}, this.fieldIndex - ${this.fieldIndex}`);
     }
 
     addField(event) {
