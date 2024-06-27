@@ -14,8 +14,8 @@
 										large-device-size="3">
 										<div class="inputContainer slds-p-horizontal_small">
 											<lightning-input data-layout-index={layoutIndex}
-												data-field-index={fieldIndex} type="text" variant="standard"
-												label="label">
+												data-field-index={fieldIndex} type={field.type} variant={field.variant}
+												label={field.label}>
 											</lightning-input>
 										</div>
 									</lightning-layout-item>
@@ -37,8 +37,25 @@
 		</lightning-layout-item>
 		<lightning-layout-item size="12" padding="around-small" small-device-size="3" medium-device-size="3"
 			large-device-size="3">
-			<div class="slds-card slds-p-around_medium">
-				Configuration Panel
+			<div class="slds-card">
+
+				<div class="slds-p-around_medium">
+					Configuration Panel
+				</div>
+				<div class="slds-p-around_medium">
+					<template for:each={configurationItems} for:item="configItem" for:index="configIndex">
+						<template lwc:if={configItem.isCombobox}>
+							<lightning-combobox key={configItem.label} label={configItem.label} value={configItem.value}
+								placeholder={configItem.placeholder} options={configItem.options}>
+							</lightning-combobox>
+						</template>
+						<template lwc:else>
+							<lightning-input key={configItem.label} type={configItem.type} variant={configItem.variant}
+								label={configItem.label} placeholder={configItem.placeholder}>
+							</lightning-input>
+						</template>
+					</template>
+				</div>
 			</div>
 		</lightning-layout-item>
 	</lightning-layout>
