@@ -1,5 +1,9 @@
+.inputContainer {
+    border-radius: 4px;
+    transition-duration: 0.4s;
+}
+
 .inputContainer:hover {
-    background-color: grey;
+    background-color: #ecebea;
     cursor: pointer;
-    opacity: 50;
 }
