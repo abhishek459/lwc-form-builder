@@ -7,9 +7,9 @@ export default class FormBuilder extends LightningElement {
         if (this.layoutIndex && this.fieldIndex) {
             console.log('Returning list');
             return [
-                { label: 'Type', isCombobox: true, options: [{ label: 'Text', value: 'text' }], value: this.layouts[this.layoutIndex].fields[this.fieldIndex].type },
-                { label: 'Label', type: 'text', value: this.layouts[this.layoutIndex].fields[this.fieldIndex].label },
-                { label: 'Variant', isCombobox: true, options: [{ label: 'Standard', value: 'standard' }, { label: 'Label Hidden', value: 'label-hidden' }] }
+                { label: 'Type', attribute: 'type', options: [{ label: 'Text', value: 'text' }], value: this.layouts[this.layoutIndex].fields[this.fieldIndex].type },
+                { label: 'Label', attribute: 'label', type: 'text', value: this.layouts[this.layoutIndex].fields[this.fieldIndex].label },
+                { label: 'Variant', attribute: 'variant', options: [{ label: 'Standard', value: 'standard' }, { label: 'Label Hidden', value: 'label-hidden' }], value: this.layouts[this.layoutIndex].fields[this.fieldIndex].variant }
             ];
         } else return false;
     }
@@ -34,5 +34,10 @@ export default class FormBuilder extends LightningElement {
 
     addLayout() {
         this.layouts.push({});
+    }
+
+    configureInput(event) {
+        const attribute = event.target.getAttribute('data-attribute');
+        this.layouts[this.layoutIndex].fields[this.fieldIndex][attribute] = event.target.value;
     }
 }

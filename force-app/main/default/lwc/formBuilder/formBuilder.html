@@ -46,16 +46,18 @@
 				<div class="slds-p-around_medium">
 					<template lwc:if={configurationItems}>
 						<template for:each={configurationItems} for:item="configItem" for:index="configIndex">
-							<template lwc:if={configItem.isCombobox}>
+							<template lwc:if={configItem.options}>
 								<lightning-combobox key={configItem.label} label={configItem.label}
 									placeholder={configItem.placeholder} options={configItem.options}
-									value={configItem.value}>
+									value={configItem.value} data-attribute={configItem.attribute}
+									onchange={configureInput}>
 								</lightning-combobox>
 							</template>
 							<template lwc:else>
 								<lightning-input key={configItem.label} type={configItem.type}
 									variant={configItem.variant} label={configItem.label}
-									placeholder={configItem.placeholder} value={configItem.value}>
+									placeholder={configItem.placeholder} value={configItem.value}
+									data-attribute={configItem.attribute} onchange={configureInput}>
 								</lightning-input>
 							</template>
 						</template>
