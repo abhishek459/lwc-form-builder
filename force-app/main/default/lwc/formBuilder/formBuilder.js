@@ -18,12 +18,11 @@ export default class FormBuilder extends LightningElement {
     activateConfigurationPanel(event) {
         this.selectedLayoutIndex = event.target.getAttribute(this.layoutIndexAttribute);
         this.selectedFieldIndex = event.target.getAttribute(this.fieldIndexAttribute);
-        console.log(`this.layoutIndex - ${this.selectedLayoutIndex}, this.fieldIndex - ${this.selectedFieldIndex}`);
         if (this.selectedLayoutIndex && !this.selectedFieldIndex) {
             this.layoutClicked = true;
             this.fieldClicked = false;
         } else if (this.selectedLayoutIndex && this.selectedFieldIndex) {
-            this.setFieldConfigurationItems();
+            this.setFieldConfigurationItemValues();
             this.layoutClicked = false;
             this.fieldClicked = true;
         } else {
@@ -32,11 +31,11 @@ export default class FormBuilder extends LightningElement {
         }
     }
 
-    setFieldConfigurationItems() {
+    setFieldConfigurationItemValues() {
         this.fieldConfigurationItems = [];
+        const field = this.layouts[this.selectedLayoutIndex].fields[this.selectedFieldIndex];
         configFields.forEach(item => {
-            const field = this.layouts[this.selectedLayoutIndex].fields[this.selectedFieldIndex];
-            item.value = field[item.attribute];
+            item.value = item.optionsTranslation ? item.optionsTranslation[field[item.attribute]] : field[item.attribute];
             this.fieldConfigurationItems.push(item);
         });
     }
@@ -56,7 +55,7 @@ export default class FormBuilder extends LightningElement {
         const attribute = event.target.getAttribute('data-attribute');
         const configFieldIndex = event.target.getAttribute('data-attribute-index');
         const field = this.layouts[this.selectedLayoutIndex].fields[this.selectedFieldIndex];
-        const optionTranslation = configFields[configFieldIndex].optionsTranslatedValue;
+        const optionTranslation = configFields[configFieldIndex].optionsTranslation;
         field[attribute] = optionTranslation ? optionTranslation[event.target.value] : event.target.value;
     }
 }

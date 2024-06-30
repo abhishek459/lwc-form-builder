@@ -1,3 +1,14 @@
+// this function is used to fetch key using value in a map
+function buildReverseMap(object = {}) {
+    if (typeof (object) !== 'object' || object == {}) return undefined;
+    const reverseMap = {};
+    Object.keys(object).forEach(key => {
+        reverseMap[key] = object[key];
+        reverseMap[String(object[key])] = key;
+    });
+    return reverseMap;
+}
+
 function kebabToPascalWithSpace(str) {
     const words = str.split("-");
     const capitalizedWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1));
@@ -13,12 +24,13 @@ function buildPicklistOptions(items) {
     } else return undefined;
 }
 
-function getFieldConfiguration({ label, attribute, type = 'text', options }) {
+function getFieldConfiguration({ label, attribute, type = 'text', options, optionsTranslation }) {
     return {
         label,
         attribute,
         type,
-        options
+        options,
+        optionsTranslation
     };
 }
 
@@ -28,11 +40,11 @@ const type = getFieldConfiguration({ label: 'Type', attribute: 'type', options: 
 const label = getFieldConfiguration({ label: 'Label', attribute: 'label' });
 
 const requiredOptionTranslation = { yes: true, no: undefined };
-const requiredOptions = [{ label: 'Yes', value: 'yes' }, { label: 'No', value: 'no' }];
-const required = { label: 'Required', attribute: 'required', type: 'text', options: requiredOptions, optionsTranslatedValue: requiredOptionTranslation };
+const requiredOptions = ['yes', 'no'];
+const required = { label: 'Required', attribute: 'required', type: 'text', options: buildPicklistOptions(requiredOptions), optionsTranslation: buildReverseMap(requiredOptionTranslation) };
 
-const variantOptions = [{ label: 'Standard', value: 'standard' }, { label: 'Label Hidden', value: 'label-hidden' }];
-const variant = { label: 'Variant', attribute: 'variant', options: variantOptions };
+const variantOptions = ['standard', 'label-hidden', 'label-inline', 'label-stacked'];
+const variant = getFieldConfiguration({ label: 'Variant', attribute: 'variant', options: buildPicklistOptions(variantOptions) });
 
 const configFields = [
     label,
