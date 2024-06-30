@@ -16,7 +16,7 @@ export default class FormBuilder extends LightningElement {
     selectedFieldIndex;
 
     activateConfigurationPanel(event) {
-        this.layoutIndex = event.target.getAttribute(this.layoutIndexAttribute);
+        this.selectedLayoutIndex = event.target.getAttribute(this.layoutIndexAttribute);
         this.selectedFieldIndex = event.target.getAttribute(this.fieldIndexAttribute);
         console.log(`this.layoutIndex - ${this.selectedLayoutIndex}, this.fieldIndex - ${this.selectedFieldIndex}`);
         if (this.selectedLayoutIndex && !this.selectedFieldIndex) {
@@ -35,7 +35,8 @@ export default class FormBuilder extends LightningElement {
     setFieldConfigurationItems() {
         this.fieldConfigurationItems = [];
         configFields.forEach(item => {
-            item.value = this.layouts[this.selectedLayoutIndex].fields[this.selectedFieldIndex][item.attribute];
+            const field = this.layouts[this.selectedLayoutIndex].fields[this.selectedFieldIndex];
+            item.value = field[item.attribute];
             this.fieldConfigurationItems.push(item);
         });
     }
@@ -53,6 +54,9 @@ export default class FormBuilder extends LightningElement {
 
     configureInput(event) {
         const attribute = event.target.getAttribute('data-attribute');
-        this.layouts[this.selectedLayoutIndex].fields[this.selectedFieldIndex][attribute] = event.target.value;
+        const configFieldIndex = event.target.getAttribute('data-attribute-index');
+        const field = this.layouts[this.selectedLayoutIndex].fields[this.selectedFieldIndex];
+        const optionTranslation = configFields[configFieldIndex].optionsTranslatedValue;
+        field[attribute] = optionTranslation ? optionTranslation[event.target.value] : event.target.value;
     }
 }

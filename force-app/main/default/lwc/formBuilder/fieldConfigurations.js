@@ -1,15 +1,20 @@
 const typeOptions = [{ label: 'Text', value: 'text' }];
-const typeField = { label: 'Type', attribute: 'type', options: typeOptions };
+const type = { label: 'Type', attribute: 'type', options: typeOptions };
 
-const labelField = { label: 'Label', attribute: 'label', type: 'text', };
+const label = { label: 'Label', attribute: 'label', type: 'text', };
+
+const requiredOptionTranslation = { yes: true, no: undefined };
+const requiredOptions = [{ label: 'Yes', value: 'yes' }, { label: 'No', value: 'no' }];
+const required = { label: 'Required', attribute: 'required', type: 'text', options: requiredOptions, optionsTranslatedValue: requiredOptionTranslation };
 
 const variantOptions = [{ label: 'Standard', value: 'standard' }, { label: 'Label Hidden', value: 'label-hidden' }];
-const variantField = { label: 'Variant', attribute: 'variant', options: variantOptions };
+const variant = { label: 'Variant', attribute: 'variant', options: variantOptions };
 
 const configFields = [
-    typeField,
-    labelField,
-    variantField,
+    label,
+    required,
+    type,
+    variant,
 ];
 
 export { configFields as default };

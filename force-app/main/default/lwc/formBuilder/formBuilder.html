@@ -16,7 +16,7 @@
 											data-layout-index={layoutIndex} data-field-index={fieldIndex}>
 											<lightning-input data-layout-index={layoutIndex}
 												data-field-index={fieldIndex} type={field.type} variant={field.variant}
-												label={field.label}>
+												label={field.label} required={field.required}>
 											</lightning-input>
 										</div>
 									</lightning-layout-item>
@@ -49,15 +49,16 @@
 							<template lwc:if={configItem.options}>
 								<lightning-combobox key={configItem.label} label={configItem.label}
 									placeholder={configItem.placeholder} options={configItem.options}
-									value={configItem.value} data-attribute={configItem.attribute}
-									onchange={configureInput}>
+									value={configItem.value} data-attribute-index={configIndex}
+									data-attribute={configItem.attribute} onchange={configureInput}>
 								</lightning-combobox>
 							</template>
 							<template lwc:else>
 								<lightning-input key={configItem.label} type={configItem.type}
 									variant={configItem.variant} label={configItem.label}
 									placeholder={configItem.placeholder} value={configItem.value}
-									data-attribute={configItem.attribute} onchange={configureInput}>
+									data-attribute-index={configIndex} data-attribute={configItem.attribute}
+									onchange={configureInput}>
 								</lightning-input>
 							</template>
 						</template>
