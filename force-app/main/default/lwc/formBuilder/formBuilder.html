@@ -4,8 +4,8 @@
 			large-device-size="9">
 			<div class="slds-card slds-p-around_medium">
 				<template for:each={layouts} for:item="layout" for:index="layoutIndex">
-					<div onclick={layoutClicked} data-layout-index={layoutIndex} class="slds-box slds-m-bottom_medium"
-						key={layout.Id}>
+					<div onclick={activateConfigurationPanel} data-layout-index={layoutIndex}
+						class="slds-box slds-m-bottom_medium" key={layout.Id}>
 						<template lwc:if={layout.fields}>
 							<lightning-layout data-layout-index={layoutIndex} multiple-rows>
 								<template for:each={layout.fields} for:item="field" for:index="fieldIndex">
@@ -44,8 +44,8 @@
 					Configuration Panel
 				</div>
 				<div class="slds-p-around_medium">
-					<template lwc:if={configurationItems}>
-						<template for:each={configurationItems} for:item="configItem" for:index="configIndex">
+					<template lwc:if={fieldClicked}>
+						<template for:each={fieldConfigurationItems} for:item="configItem" for:index="configIndex">
 							<template lwc:if={configItem.options}>
 								<lightning-combobox key={configItem.label} label={configItem.label}
 									placeholder={configItem.placeholder} options={configItem.options}
@@ -61,6 +61,11 @@
 								</lightning-input>
 							</template>
 						</template>
+					</template>
+					<template lwc:elseif={layoutClicked}>
+						<div>
+							Layout Configuration Mode
+						</div>
 					</template>
 					<template lwc:else>
 						No field selected!

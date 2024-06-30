@@ -4,26 +4,40 @@ import configFields from './fieldConfigurations';
 export default class FormBuilder extends LightningElement {
     @track layouts = [{}];
 
-    get configurationItems() {
-        if (this.layoutIndex && this.fieldIndex) {
-            const myArray = [];
-            configFields.forEach(item => {
-                item.value = this.layouts[this.layoutIndex].fields[this.fieldIndex][item.attribute];
-                myArray.push(item);
-            })
-            return myArray;
-        } else return false;
-    }
+    layoutClicked = false;
+    fieldClicked = false;
+
+    fieldConfigurationItems = [];
 
     layoutIndexAttribute = 'data-layout-index';
     fieldIndexAttribute = 'data-field-index';
-    layoutIndex;
-    fieldIndex;
 
-    layoutClicked(event) {
+    selectedLayoutIndex;
+    selectedFieldIndex;
+
+    activateConfigurationPanel(event) {
         this.layoutIndex = event.target.getAttribute(this.layoutIndexAttribute);
-        this.fieldIndex = event.target.getAttribute(this.fieldIndexAttribute);
-        console.log(`this.layoutIndex - ${this.layoutIndex}, this.fieldIndex - ${this.fieldIndex}`);
+        this.selectedFieldIndex = event.target.getAttribute(this.fieldIndexAttribute);
+        console.log(`this.layoutIndex - ${this.selectedLayoutIndex}, this.fieldIndex - ${this.selectedFieldIndex}`);
+        if (this.selectedLayoutIndex && !this.selectedFieldIndex) {
+            this.layoutClicked = true;
+            this.fieldClicked = false;
+        } else if (this.selectedLayoutIndex && this.selectedFieldIndex) {
+            this.setFieldConfigurationItems();
+            this.layoutClicked = false;
+            this.fieldClicked = true;
+        } else {
+            this.layoutClicked = false;
+            this.fieldClicked = false;
+        }
+    }
+
+    setFieldConfigurationItems() {
+        this.fieldConfigurationItems = [];
+        configFields.forEach(item => {
+            item.value = this.layouts[this.selectedLayoutIndex].fields[this.selectedFieldIndex][item.attribute];
+            this.fieldConfigurationItems.push(item);
+        });
     }
 
     addField(event) {
@@ -39,6 +53,6 @@ export default class FormBuilder extends LightningElement {
 
     configureInput(event) {
         const attribute = event.target.getAttribute('data-attribute');
-        this.layouts[this.layoutIndex].fields[this.fieldIndex][attribute] = event.target.value;
+        this.layouts[this.selectedLayoutIndex].fields[this.selectedFieldIndex][attribute] = event.target.value;
     }
 }
