@@ -1,7 +1,31 @@
-const typeOptions = [{ label: 'Text', value: 'text' }];
-const type = { label: 'Type', attribute: 'type', options: typeOptions };
+function kebabToPascalWithSpace(str) {
+    const words = str.split("-");
+    const capitalizedWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1));
+    return capitalizedWords.join(" ");
+}
 
-const label = { label: 'Label', attribute: 'label', type: 'text', };
+function buildPicklistOptions(items) {
+    if (Array.isArray(items) && items.length > 0) {
+        const options = items.map(item => {
+            return { label: kebabToPascalWithSpace(item), value: item };
+        });
+        return options;
+    } else return undefined;
+}
+
+function getFieldConfiguration({ label, attribute, type = 'text', options }) {
+    return {
+        label,
+        attribute,
+        type,
+        options
+    };
+}
+
+const typeOptions = ['text', 'number', 'email', 'tel', 'url', 'date', 'time', 'datetime', 'datetime-local'];
+const type = getFieldConfiguration({ label: 'Type', attribute: 'type', options: buildPicklistOptions(typeOptions) });
+
+const label = getFieldConfiguration({ label: 'Label', attribute: 'label' });
 
 const requiredOptionTranslation = { yes: true, no: undefined };
 const requiredOptions = [{ label: 'Yes', value: 'yes' }, { label: 'No', value: 'no' }];
