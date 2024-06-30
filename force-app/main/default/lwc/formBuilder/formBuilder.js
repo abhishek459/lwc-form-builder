@@ -1,16 +1,17 @@
 import { LightningElement, track } from 'lwc';
+import configFields from './fieldConfigurations';
 
 export default class FormBuilder extends LightningElement {
     @track layouts = [{}];
+
     get configurationItems() {
-        console.log(`Inside getter this.layoutIndex - ${this.layoutIndex}, this.fieldIndex - ${this.fieldIndex}`);
         if (this.layoutIndex && this.fieldIndex) {
-            console.log('Returning list');
-            return [
-                { label: 'Type', attribute: 'type', options: [{ label: 'Text', value: 'text' }], value: this.layouts[this.layoutIndex].fields[this.fieldIndex].type },
-                { label: 'Label', attribute: 'label', type: 'text', value: this.layouts[this.layoutIndex].fields[this.fieldIndex].label },
-                { label: 'Variant', attribute: 'variant', options: [{ label: 'Standard', value: 'standard' }, { label: 'Label Hidden', value: 'label-hidden' }], value: this.layouts[this.layoutIndex].fields[this.fieldIndex].variant }
-            ];
+            const myArray = [];
+            configFields.forEach(item => {
+                item.value = this.layouts[this.layoutIndex].fields[this.fieldIndex][item.attribute];
+                myArray.push(item);
+            })
+            return myArray;
         } else return false;
     }
 
